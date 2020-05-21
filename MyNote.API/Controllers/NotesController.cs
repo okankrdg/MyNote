@@ -24,7 +24,7 @@ namespace MyNote.API.Controllers
             return db.Notes.Where(x => x.AuthorId == UserId).ToList().Select(x => x.ToNoteDto());
         }
         [HttpGet]
-        public IHttpActionResult GetNote(int? id)
+        public IHttpActionResult GetNote(int? id=null)
         {
             if (id==null)
             {
@@ -62,7 +62,7 @@ namespace MyNote.API.Controllers
             return BadRequest(ModelState);
         }
         [HttpPut]
-        public IHttpActionResult Update(int? id, UpdateNoteDto dto)
+        public IHttpActionResult Update(UpdateNoteDto dto, int? id = null)
         {
             if (id == null || dto == null || id != dto.Id )
             {
@@ -84,7 +84,7 @@ namespace MyNote.API.Controllers
             return BadRequest(ModelState);
         }
         [HttpDelete]
-        public IHttpActionResult Delete(int? id)
+        public IHttpActionResult Delete(int? id=null)
         {
             if (id == null)
             {
@@ -100,13 +100,5 @@ namespace MyNote.API.Controllers
             return Ok(note.ToNoteDto());
         }
        
-        public IHttpActionResult GetTest(int? deneme=null)
-        {
-            if (deneme == null)
-            {
-                return BadRequest();
-            }
-            return Ok();
-        }
     }
 }
