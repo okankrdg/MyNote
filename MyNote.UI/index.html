@@ -2,6 +2,7 @@
 <html class="h-100">
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
     <title>My Notes</title>
     <link href="Content/bootstrap.min.css" rel="stylesheet" />
     <link href="Content/fontawesome-all.min.css" rel="stylesheet" />
@@ -12,66 +13,105 @@
     <script src="Scripts/Site.js"></script>
 </head>
 <body class="h-100">
-    <div id="login" class="d-flex align-items-center h-100">
-            <div class="container mt-2 mb-4">
-                <div class="col-md-7 ml-auto mr-auto">
+    <header>
+        <!-- Fixed navbar -->
+        <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+            <a class="navbar-brand" href="#">My Notes</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarCollapse">
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" href="#">Home</a>
+                    </li>
+
+                </ul>
+                <ul class="navbar-nav navbar-login">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pills-signin">Login</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#pills-signup">Register</a>
+                    </li>
+                </ul>
+                
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+    <div id="page-login" class="page">
+        <div id="login" class="d-flex flex-direction-column h-100">
+            <!--https://codepen.io/mianzaid/pen/YBQZvg-->
+            <!--https://codepen.io/yigith/pen/qBOgvgp-->
+            <div class="container mt-2 mb-4 m-auto">
+                <div class="col-sm-8 col-lg-6 ml-auto mr-auto">
                     <ul class="nav nav-pills nav-fill mb-1" id="pills-tab" role="tablist">
                         <li class="nav-item"> <a class="nav-link active" id="pills-signin-tab" data-toggle="pill" href="#pills-signin" role="tab" aria-controls="pills-signin" aria-selected="true">Sign In</a> </li>
-                        <li class="nav-item"> <a class="nav-link" id="pills-signup-tab bg-dark" data-toggle="pill" href="#pills-signup" role="tab" aria-controls="pills-signup" aria-selected="false">Sign Up</a> </li>
+                        <li class="nav-item"> <a class="nav-link" id="pills-signup-tab" data-toggle="pill" href="#pills-signup" role="tab" aria-controls="pills-signup" aria-selected="false">Sign Up</a> </li>
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-signin" role="tabpanel" aria-labelledby="pills-signin-tab">
-                            <div class="col-md-12 border border-primary shadow rounded pt-4">
-
-                                <form method="post" id="singninFrom">
+                            <div class="col-sm-12 border border-primary shadow rounded pt-4">
+                                <h1 class="mb-3 text-center">Login</h1>
+                                <!--<div class="text-center"><img src="https://placehold.it/80x80" class="rounded-circle border p-1"></div>-->
+                                <div class="alert message"></div>
+                                <form method="post" id="signinform">
+                                    <input type="hidden" name="grant_type" value="password" />
                                     <div class="form-group">
                                         <label class="font-weight-bold">Email <span class="text-danger">*</span></label>
-                                        <input type="email" name="email" id="email" class="form-control" placeholder="Enter valid email" required>
+                                        <input type="email" name="username" id="signinemail" class="form-control" placeholder="E-mail" required>
                                     </div>
                                     <div class="form-group">
                                         <label class="font-weight-bold">Password <span class="text-danger">*</span></label>
-                                        <input type="password" name="password" id="password" class="form-control" placeholder="***********" required>
+                                        <input type="password" name="password" id="signinpassword" class="form-control" placeholder="Password" required>
                                     </div>
                                     <div class="form-group">
                                         <div class="row">
                                             <div class="col">
-                                                <label><input type="checkbox" name="condition" id="condition"> Remember me.</label>
+                                                <label><input type="checkbox" id="signinrememberme"> Remember me.</label>
                                             </div>
-                                            <div class="col text-right"> <a href="javascript:;" data-toggle="modal" data-target="#forgotPass">Forgot Password?</a> </div>
+                                            <div class="col text-right"> <a href="#" data-toggle="modal" data-target="#forgotPass">Forgot Password?</a> </div>
                                         </div>
                                     </div>
-                                    <div class="form-group">
-                                        <input type="submit" name="submit" value="Sign In" class="btn btn-block btn-primary">
+                                    <div class="form-group mt-4">
+                                        <input type="submit" name="submit" id="signinsubmit" value="Sign In" class="btn btn-block btn-primary">
                                     </div>
                                 </form>
                             </div>
                         </div>
                         <div class="tab-pane fade" id="pills-signup" role="tabpanel" aria-labelledby="pills-signup-tab">
                             <div class="col-sm-12 border border-primary shadow rounded pt-4">
-                                <form method="post" id="singnupFrom">
+                                <h1 class="mb-3 text-center">Register</h1>
+                                <!--<div class="text-center"><img src="https://placehold.it/80x80" class="rounded-circle border p-1"></div>-->
+
+                                <div class="alert message"></div>
+                                <form method="post" id="signupform">
                                     <div class="form-group">
                                         <label class="font-weight-bold">Email <span class="text-danger">*</span></label>
-                                        <input type="email" name="signupemail" id="signupemail" class="form-control" placeholder="Enter valid email" required>
+                                        <input type="email" name="Email" id="signupemail" class="form-control" placeholder="E-mail" required>
                                     </div>
-
                                     <div class="form-group">
                                         <label class="font-weight-bold">Password <span class="text-danger">*</span></label>
-                                        <input type="password" name="signuppassword" id="signuppassword" class="form-control" placeholder="***********" pattern="^\S{6,}$" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Must have at least 6 characters' : ''); if(this.checkValidity()) form.password_two.pattern = this.value;"
-                                               required>
+                                        <input type="password" name="Password" id="signuppassword" class="form-control" placeholder="Password" required>
                                     </div>
                                     <div class="form-group">
                                         <label class="font-weight-bold">Confirm Password <span class="text-danger">*</span></label>
-                                        <input type="password" name="signupcpassword" id="signupcpassword" class="form-control" pattern="^\S{6,}$" onchange="this.setCustomValidity(this.validity.patternMismatch ? 'Please enter the same Password as above' : '');" placeholder="***********" required>
+                                        <input type="password" name="ConfirmPassword" id="signupcpassword" class="form-control" placeholder="Password" required>
                                     </div>
-                                    <div class="form-group">
-                                        <input type="submit" name="signupsubmit" value="Sign Up" class="btn btn-block btn-primary">
+                                    <div class="form-group mt-4">
+                                        <input type="submit" name="signupsubmit" id="signupsubmit" value="Sign Up" class="btn btn-block btn-primary">
                                     </div>
                                 </form>
                             </div>
                         </div>
                     </div>
                 </div>
-
+                <div class="loadingmodal"><!-- Place at bottom of page --></div>
                 <!-- Modal -->
                 <div class="modal fade" id="forgotPass" tabindex="-1" role="dialog" aria-hidden="true">
                     <div class="modal-dialog" role="document">
@@ -98,8 +138,13 @@
                     </div>
                 </div>
             </div>
-
-        
+        </div>
+    </div>
+    <div class="page" id="page-app">
+        <h1>APP</h1>
+        <p>
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis at enim in commodo. Nam ullamcorper nisi eget est convallis, non ultricies quam suscipit. Etiam elit lorem, consectetur eu dignissim sit amet, dictum at turpis. Curabitur ultrices congue mi ut pretium. Integer hendrerit nisi nec odio vehicula, ac sollicitudin nisl finibus. In hac habitasse platea dictumst. Pellentesque pellentesque sodales hendrerit. Fusce lobortis dolor
+        </p>
     </div>
 </body>
 </html>
