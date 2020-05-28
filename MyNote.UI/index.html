@@ -35,7 +35,7 @@
                         <a class="nav-link" href="#pills-signup">Register</a>
                     </li>
                 </ul>
-                
+
                 <ul class="navbar-nav only-logged-in">
                     <li class="nav-item">
                         <a class="nav-link" href="#" id="btnLogout">Logout</a>
@@ -140,11 +140,24 @@
             </div>
         </div>
     </div>
-    <div class="page" id="page-app">
-        <h1>APP</h1>
-        <p>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc mollis at enim in commodo. Nam ullamcorper nisi eget est convallis, non ultricies quam suscipit. Etiam elit lorem, consectetur eu dignissim sit amet, dictum at turpis. Curabitur ultrices congue mi ut pretium. Integer hendrerit nisi nec odio vehicula, ac sollicitudin nisl finibus. In hac habitasse platea dictumst. Pellentesque pellentesque sodales hendrerit. Fusce lobortis dolor
-        </p>
+    <div class="page " id="page-app">
+        <div class="container-fluid ">
+            <div class="row pt-3">
+                <div class="col-md-3">
+                    <div class="list-group" id="notes">
+                    </div>
+                </div>
+                <div class="col-md-9 mt-md-3">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Title" id="noteTitle"/>
+                    </div>
+                    <div class="form-group">
+                        <textarea id="noteContent" class="form-control" placeholder="Content" rows="10" cols="20" ></textarea>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
+
 </body>
 </html>

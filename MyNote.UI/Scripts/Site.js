@@ -1,4 +1,6 @@
 ﻿$(function () {
+
+
     //Globals
     $body = $("body");
     $(document).on({
@@ -14,32 +16,56 @@
             return;
         }
 
-        //Token geçerli mi?
-        $.ajax({
-            url: apiUrl + "api/Account/UserInfo",
-            type:"Get",
-            headers: { Authorization: "Bearer " + loginData.access_token },
-            success: function (data) {
-                console.log(data);
+        //is Token Valid?
+        ajax("api/Account/UserInfo", "GET",
+            function (data) {
                 showAppPage();
             },
-            error: function () {
+            function () {
                 showLoginPage();
             }
-        })
-       
+        )
     }
     function showAppPage() {
         $(".only-logged-in").show();
         $(".only-logged-out").hide();
         $(".page").hide();
-        $("#page-app").show();
+        ajax("api/Notes/List", "GET",
+            function (data) {
+                for (var i = 0; i < data.length; i++) {
+                    var a = $('<a/>').addClass("list-group-item list-group-item-action show-note")
+                        .attr("href", "#")
+                        .text(data[i].Title)
+                        .prop('note', data[i]);
+                    $("#notes").append(a);
+                }
+
+                $("#page-app").show();
+            },
+            function () {
+                
+            }
+        )
+       
     }
     function showLoginPage() {
         $(".only-logged-in").hide();
         $(".only-logged-out").show();
         $(".page").hide();
+        //retrieve notes
         $("#page-login").show();
+    }
+    function getAuthHeader() {
+        return { Authorization: "Bearer " + getloginData().access_token };
+    }
+    function ajax(url,type, successFunc, errorFunc) {
+        $.ajax({
+            url: apiUrl + url,
+            type: type,
+            headers: getAuthHeader(),
+            success: successFunc,
+            error: errorFunc
+        })
     }
     function getloginData() {
       
@@ -133,6 +159,12 @@
         localStorage.removeItem("login");
         showLoginPage();
     });
+    $("body").on("click",".show-note", function (e) {
+        e.preventDefault();
+        var note = this.note;
+        $('#noteContent').val(note.Content);
+        $('#noteTitle').val(note.Title);
+    })
     //Commands
     checkLogin();
 })
