@@ -1,8 +1,12 @@
-﻿$(function () {
+﻿
+
+$(function () {
 
 
     //Globals
     $body = $("body");
+    var selectedNote = null;
+    var selectedLink = null;
     $(document).on({
         ajaxStart: function() { $body.addClass("loading"); },
         ajaxStop: function () { $body.removeClass("loading"); }
@@ -17,7 +21,7 @@
         }
 
         //is Token Valid?
-        ajax("api/Account/UserInfo", "GET",
+        ajax("api/Account/UserInfo", "GET",null,
             function (data) {
                 showAppPage();
             },
@@ -30,23 +34,33 @@
         $(".only-logged-in").show();
         $(".only-logged-out").hide();
         $(".page").hide();
-        ajax("api/Notes/List", "GET",
+        ajax("api/Notes/List", "GET", null,
             function (data) {
                 for (var i = 0; i < data.length; i++) {
-                    var a = $('<a/>').addClass("list-group-item list-group-item-action show-note")
-                        .attr("href", "#")
-                        .text(data[i].Title)
-                        .prop('note', data[i]);
-                    $("#notes").append(a);
+                    addMenuLink(data[i]);
                 }
 
                 $("#page-app").show();
             },
             function () {
-                
-            }
-        )
+
+            });
        
+    }
+    function addMenuLink(note, isActive = false) {
+        var a = $('<a/>').addClass("list-group-item list-group-item-action show-note")
+            .attr("href", "#")
+            .text(note.Title)
+            .prop('note', note);
+       
+        if (isActive) {
+            $(".show-note").removeClass("active");
+            a.addClass("active");
+            selectedLink = a.get(0);
+            selectedNote = note;
+        }
+        $("#notes").prepend(a);
+        
     }
     function showLoginPage() {
         $(".only-logged-in").hide();
@@ -58,14 +72,46 @@
     function getAuthHeader() {
         return { Authorization: "Bearer " + getloginData().access_token };
     }
-    function ajax(url,type, successFunc, errorFunc) {
+    function ajax(url,type, data,successFunc, errorFunc) {
         $.ajax({
             url: apiUrl + url,
             type: type,
+            data:data,
             headers: getAuthHeader(),
             success: successFunc,
             error: errorFunc
         })
+    }
+    function updateNote() {
+        ajax("api/Notes/Update/" + selectedNote.Id, "Put",
+            {
+                Id: selectedNote.Id,
+                Title: $('#noteTitle').val(),
+                Content:$('#noteContent').val()
+            },
+            function (data) {
+                selectedLink.note = data;
+                $(selectedLink).text(data.Title);
+                alert("Güncelleme Başarılı")
+            },
+            function () {
+
+            }
+        )
+    }
+    function addNote() {
+        ajax("api/Notes/New/", "Post",
+            {
+                Title: $('#noteTitle').val(),
+                Content: $('#noteContent').val()
+            },
+            function (data) {
+                addMenuLink(data, true);
+            },
+            function () {
+
+            }
+        )
     }
     function getloginData() {
       
@@ -107,6 +153,13 @@
     }
     function loginError(errorMessage) {
         $(".tab-pane.active .message").removeClass("alert-success").addClass("alert-danger").text(errorMessage).show();
+    }
+    function resetNoteForm() {
+        selectedLink = null;
+        selectedNote = null;
+        $(".show-note").removeClass("active");
+        $("#noteTitle").val("");
+        $("#noteContent").val("");
     }
     $('#signupform').submit(function (event) {
         event.preventDefault();
@@ -157,13 +210,45 @@
         e.preventDefault();
         sessionStorage.removeItem("login");
         localStorage.removeItem("login");
+        resetNoteForm()
         showLoginPage();
     });
+    $(".add-new-note").click(function () {
+        resetNoteForm();
+    })
     $("body").on("click",".show-note", function (e) {
         e.preventDefault();
-        var note = this.note;
-        $('#noteContent').val(note.Content);
-        $('#noteTitle').val(note.Title);
+        selectedNote = this.note;
+        selectedLink = this;
+        $('#noteContent').val(selectedNote.Content);
+        $('#noteTitle').val(selectedNote.Title);
+        $(".show-note").removeClass("active");
+        $(this).addClass("active");
+    })
+    $("#frmNote").submit(function (event) {
+        event.preventDefault();
+        if (selectedNote) {
+            updateNote();
+        }
+        else {
+            addNote();
+        }
+    })
+    $("#btnDelete").click(function () {
+        if (selectedNote) {
+            if (confirm("Are you sure to delete the selected note")) {
+                ajax("api/Notes/Delete/" + selectedNote.Id, "Delete", null, function (data) {
+                    $(selectedLink).remove();
+                    resetNoteForm();
+                })
+            }
+           
+        }
+        else {
+            if (confirm("Are you sure to delete the draft")) {
+                resetNoteForm();
+            }
+        }
     })
     //Commands
     checkLogin();

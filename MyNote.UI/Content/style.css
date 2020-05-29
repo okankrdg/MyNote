@@ -34,3 +34,14 @@ body.loading .loadingmodal {
 body.loading .loadingmodal {
     display: block;
 }
+.login-tabs-container{
+    margin-top:40px;
+}
+/*#notes{
+    position: fixed;
+    overflow-y: scroll;
+    width:auto;
+    top: 20%;
+    bottom: 0%;
+    margin-bottom:10px;
+}*/

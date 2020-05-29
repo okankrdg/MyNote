@@ -49,25 +49,25 @@
             <!--https://codepen.io/mianzaid/pen/YBQZvg-->
             <!--https://codepen.io/yigith/pen/qBOgvgp-->
             <div class="container mt-2 mb-4 m-auto">
-                <div class="col-sm-8 col-lg-6 ml-auto mr-auto">
+                <div class="col-sm-8 col-lg-6 ml-auto mr-auto login-tabs-container">
                     <ul class="nav nav-pills nav-fill mb-1" id="pills-tab" role="tablist">
                         <li class="nav-item"> <a class="nav-link active" id="pills-signin-tab" data-toggle="pill" href="#pills-signin" role="tab" aria-controls="pills-signin" aria-selected="true">Sign In</a> </li>
                         <li class="nav-item"> <a class="nav-link" id="pills-signup-tab" data-toggle="pill" href="#pills-signup" role="tab" aria-controls="pills-signup" aria-selected="false">Sign Up</a> </li>
                     </ul>
                     <div class="tab-content" id="pills-tabContent">
                         <div class="tab-pane fade show active" id="pills-signin" role="tabpanel" aria-labelledby="pills-signin-tab">
-                            <div class="col-sm-12 border border-primary shadow rounded pt-4">
+                            <div class="col-sm-12 border border-primary shadow rounded py-4">
                                 <h1 class="mb-3 text-center">Login</h1>
                                 <!--<div class="text-center"><img src="https://placehold.it/80x80" class="rounded-circle border p-1"></div>-->
                                 <div class="alert message"></div>
                                 <form method="post" id="signinform">
                                     <input type="hidden" name="grant_type" value="password" />
                                     <div class="form-group">
-                                        <label class="font-weight-bold">Email <span class="text-danger">*</span></label>
+                                        <label class="font-weight-bold">Email </label>
                                         <input type="email" name="username" id="signinemail" class="form-control" placeholder="E-mail" required>
                                     </div>
                                     <div class="form-group">
-                                        <label class="font-weight-bold">Password <span class="text-danger">*</span></label>
+                                        <label class="font-weight-bold">Password </label>
                                         <input type="password" name="password" id="signinpassword" class="form-control" placeholder="Password" required>
                                     </div>
                                     <div class="form-group">
@@ -85,22 +85,22 @@
                             </div>
                         </div>
                         <div class="tab-pane fade" id="pills-signup" role="tabpanel" aria-labelledby="pills-signup-tab">
-                            <div class="col-sm-12 border border-primary shadow rounded pt-4">
+                            <div class="col-sm-12 border border-primary shadow rounded py-4">
                                 <h1 class="mb-3 text-center">Register</h1>
                                 <!--<div class="text-center"><img src="https://placehold.it/80x80" class="rounded-circle border p-1"></div>-->
 
                                 <div class="alert message"></div>
                                 <form method="post" id="signupform">
                                     <div class="form-group">
-                                        <label class="font-weight-bold">Email <span class="text-danger">*</span></label>
+                                        <label class="font-weight-bold">Email </label>
                                         <input type="email" name="Email" id="signupemail" class="form-control" placeholder="E-mail" required>
                                     </div>
                                     <div class="form-group">
-                                        <label class="font-weight-bold">Password <span class="text-danger">*</span></label>
+                                        <label class="font-weight-bold">Password</label>
                                         <input type="password" name="Password" id="signuppassword" class="form-control" placeholder="Password" required>
                                     </div>
                                     <div class="form-group">
-                                        <label class="font-weight-bold">Confirm Password <span class="text-danger">*</span></label>
+                                        <label class="font-weight-bold">Confirm Password </label>
                                         <input type="password" name="ConfirmPassword" id="signupcpassword" class="form-control" placeholder="Password" required>
                                     </div>
                                     <div class="form-group mt-4">
@@ -143,17 +143,29 @@
     <div class="page " id="page-app">
         <div class="container-fluid ">
             <div class="row pt-3">
-                <div class="col-md-3">
+                <div class="col-md-3" id="lefcol">
+                    <button type="button" class="btn btn-success add-new-note mb-2"> 
+                    <i class="fas fa-plus-circle"></i>
+                            New Note
+                    </button>
                     <div class="list-group" id="notes">
                     </div>
                 </div>
-                <div class="col-md-9 mt-md-3">
-                    <div class="form-group">
-                        <input type="text" class="form-control" placeholder="Title" id="noteTitle"/>
-                    </div>
-                    <div class="form-group">
-                        <textarea id="noteContent" class="form-control" placeholder="Content" rows="10" cols="20" ></textarea>
-                    </div>
+                <div class="col-md-9 mt-md-0 mt-sm-3">
+                    <form id="frmNote">
+                        <div class="form-group">
+                            <input type="text" class="form-control" placeholder="Title" id="noteTitle" name="Title" required />
+                        </div>
+                        <div class="form-group">
+                            <textarea id="noteContent" name="Content" class="form-control" placeholder="Content" rows="10" cols="20"></textarea>
+                        </div>
+                        <div class="d-flex">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <button id="btnDelete" type="button" class="btn btn-danger ml-auto">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
