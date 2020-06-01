@@ -12,6 +12,7 @@ $(function () {
         ajaxStop: function () { $body.removeClass("loading"); }
     });
     var apiUrl = 'https://localhost:44339/';
+    //var apiUrl = 'http://mynoteapi.okankaradag.com/';
     //Funcitons
     function checkLogin() {
         var loginData = getloginData();
