@@ -1,0 +1,29 @@
+﻿
+<div class="container-fluid ">
+    <div class="row pt-3">
+        <div class="col-md-3" id="lefcol">
+            <button type="button" class="btn btn-success add-new-note mb-2">
+                <i class="fas fa-plus-circle"></i>
+                New Note
+            </button>
+            <div class="list-group" id="notes">
+            </div>
+        </div>
+        <div class="col-md-9 mt-md-0 mt-sm-3">
+            <form id="frmNote">
+                <div class="form-group">
+                    <input type="text" class="form-control" placeholder="Title" id="noteTitle" name="Title" required />
+                </div>
+                <div class="form-group">
+                    <textarea id="noteContent" name="Content" class="form-control" placeholder="Content" rows="10" cols="20"></textarea>
+                </div>
+                <div class="d-flex">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button id="btnDelete" type="button" class="btn btn-danger ml-auto">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
