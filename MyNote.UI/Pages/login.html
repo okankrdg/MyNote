@@ -1,4 +1,4 @@
-﻿
+﻿{{ currentTab }}
 <div id="login" class="d-flex flex-direction-column h-100">
     <!--https://codepen.io/mianzaid/pen/YBQZvg-->
     <!--https://codepen.io/yigith/pen/qBOgvgp-->
@@ -13,21 +13,21 @@
                     <div class="col-sm-12 border border-primary shadow rounded py-4">
                         <h1 class="mb-3 text-center">Login</h1>
                         <!--<div class="text-center"><img src="https://placehold.it/80x80" class="rounded-circle border p-1"></div>-->
-                        <div class="alert message"></div>
-                        <form method="post" id="signinform">
+                        <messages></messages>
+                        <form method="post" id="signinform" ng-submit="loginSubmit()">
                             <input type="hidden" name="grant_type" value="password" />
                             <div class="form-group">
                                 <label class="font-weight-bold">Email </label>
-                                <input type="email" name="username" id="signinemail" class="form-control" placeholder="E-mail" required>
+                                <input ng-model="loginForm.username" type="email" name="username" id="signinemail" class="form-control" placeholder="E-mail" required>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Password </label>
-                                <input type="password" name="password" id="signinpassword" class="form-control" placeholder="Password" required>
+                                <input type="password" ng-model="loginForm.password" name="password" id="signinpassword" class="form-control" placeholder="Password" required>
                             </div>
                             <div class="form-group">
                                 <div class="row">
                                     <div class="col">
-                                        <label><input type="checkbox" id="signinrememberme"> Remember me.</label>
+                                        <label><input ng-model="rememberMe" type="checkbox" id="signinrememberme"> Remember me.</label>
                                     </div>
                                     <div class="col text-right"> <a href="#" data-toggle="modal" data-target="#forgotPass">Forgot Password?</a> </div>
                                 </div>
@@ -43,19 +43,19 @@
                         <h1 class="mb-3 text-center">Register</h1>
                         <!--<div class="text-center"><img src="https://placehold.it/80x80" class="rounded-circle border p-1"></div>-->
 
-                        <div class="alert message"></div>
-                        <form method="post" id="signupform">
+                        <messages></messages>
+                        <form method="post" id="signupform" ng-submit="registerSubmit()">
                             <div class="form-group">
                                 <label class="font-weight-bold">Email </label>
-                                <input type="email" name="Email" id="signupemail" class="form-control" placeholder="E-mail" required>
+                                <input type="email" ng-model="registerForm.Email" name="Email" id="signupemail" class="form-control" placeholder="E-mail" required>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Password</label>
-                                <input type="password" name="Password" id="signuppassword" class="form-control" placeholder="Password" required>
+                                <input ng-model="registerForm.Password" type="password" name="Password" id="signuppassword" class="form-control" placeholder="Password" required>
                             </div>
                             <div class="form-group">
                                 <label class="font-weight-bold">Confirm Password </label>
-                                <input type="password" name="ConfirmPassword" id="signupcpassword" class="form-control" placeholder="Password" required>
+                                <input ng-model="registerForm.ConfirmPassword" type="password" name="ConfirmPassword" id="signupcpassword" class="form-control" placeholder="Password" required>
                             </div>
                             <div class="form-group mt-4">
                                 <input type="submit" name="signupsubmit" id="signupsubmit" value="Sign Up" class="btn btn-block btn-primary">
@@ -65,8 +65,7 @@
                 </div>
             </div>
         </div>
-        <div class="loadingmodal"><!-- Place at bottom of page --></div>
-        <!-- Modal -->
+     
         <div class="modal fade" id="forgotPass" tabindex="-1" role="dialog" aria-hidden="true">
             <div class="modal-dialog" role="document">
                 <form method="post" id="forgotpassForm">

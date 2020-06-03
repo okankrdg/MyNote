@@ -91,6 +91,8 @@
     <Content Include="Content\svg-with-js.min.css" />
     <Content Include="Content\v4-shims.css" />
     <Content Include="Content\v4-shims.min.css" />
+    <Content Include="directives\messages.html" />
+    <Content Include="favicon.ico" />
     <Content Include="index2.html" />
     <Content Include="index.html" />
     <Content Include="Pages\app.html" />
