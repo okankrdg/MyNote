@@ -16,21 +16,12 @@ app.config(function ($routeProvider) {
             templateUrl: "pages/login.html", controller: "loginController"
         })
 
-});
+}).run(function ($rootScope, $location) {
+    $rootScope.loginData = function () {
 
-app.controller("mainController", function ($scope, $http) {
-    $scope.isLoading = false;
-    $scope.showLoading = function () {
-        $scope.isLoading = true;
-    };
-    $scope.hideLoading = function () {
-        $scope.isLoading = false;
-    };
-    $scope.loginData = function () {
-
-        var loginDataJson = localStorage["login"] | sessionStorage["login"];
+        var loginDataJson = localStorage["login"] || sessionStorage["login"];
         if (!loginDataJson) {
-            return null
+            return null;
         }
         try {
             return JSON.parse(loginDataJson);
@@ -39,6 +30,27 @@ app.controller("mainController", function ($scope, $http) {
         }
 
     };
+    //https://stackoverflow.com/questions/11541695/redirecting-to-a-certain-route-based-on-condition
+    $rootScope.$on("$routeChangeStart", function (event, next, current) {
+        if ($rootScope.loginData() == null) {
+            // no logged user, we should be going to #login
+            if (next.templateUrl != "pages/login.html") {
+                // not going to #login, we should redirect now
+                $location.path("/login");
+            }
+        }
+    });
+});
+
+app.controller("mainController", function ($scope, $http, $location) {
+    $scope.isLoading = false;
+    $scope.showLoading = function () {
+        $scope.isLoading = true;
+    };
+    $scope.hideLoading = function () {
+        $scope.isLoading = false;
+    };
+
     $scope.token = function () {
         var loginData = $scope.loginData();
         if (!loginData) {
@@ -70,17 +82,37 @@ app.controller("mainController", function ($scope, $http) {
     };
 
     $scope.checkAuth = function () {
-        var tokenJson = localStorage["login"] | sessionStorage["login"];
-        if (!tokenJson) {
-            return;
+        if ($scope.loginData) {
+            $scope.ajax("api/Account/UserInfo", "get", null, true,
+                function (response) {
+                    if (response.data.Email != $scope.loginData.userName) {
+                        $scope.logout();
+                    }
+                },
+                function (response) {
+                    if (response.status == 401) {
+                        $scope.logout();
+                    }
+                }
+            )
         }
-        //token is Valid
+       
     };
     $scope.checkAuth();
+    $scope.logout = function () {
+        localStorage.removeItem("login")
+        sessionStorage.removeItem("login")
+        $location.path("/login")
+    }
 
 });
+app.controller("appController", function ($scope, $location) {
+    //if (!$scope.loginData()) {
+    //    $location.path("/login");
+    //}
 
-app.controller("loginController", function ($scope, $http) {
+});
+app.controller("loginController", function ($scope, $location ,$timeout, $httpParamSerializer) {
     $scope.currentTab = "login"
     $scope.messageFor = "login";
     $scope.messageType = "info";
@@ -96,6 +128,10 @@ app.controller("loginController", function ($scope, $http) {
                 }
 
             }
+        }
+
+        if (data.error_description) {
+            $scope.messages.push(data.error_description);
         }
     };
     $scope.success = function (data) {
@@ -141,14 +177,27 @@ app.controller("loginController", function ($scope, $http) {
             }
         );
     };
+   
     $scope.loginSubmit = function () {
-
+        $scope.ajax("Token", "post",$httpParamSerializer($scope.loginForm), false,
+            function (response) {
+                localStorage.removeItem("login");
+                sessionStorage.removeItem("login");
+                var storage = $scope.rememberMe ? localStorage : sessionStorage;
+                storage["login"] = JSON.stringify(response.data);
+                $scope.resetLoginForm();
+                $scope.success("Your login is successful. Redirecting...")
+                $location.path("/");
+               
+            },
+            function (response) {
+                $scope.error(response.data)
+            }
+        );
     };
 });
 
-app.controller("appController", function ($scope, $location) {
-    $location.path("/login");
-});
+
 
 $(function () {
 
